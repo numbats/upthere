@@ -37,8 +37,107 @@ save(m2, file="data/m2.rda")
 
 ```{r}
 #| echo: false
+#| message: false
+#| warning: false
+#| fig-width: 8
+#| fig-height: 4
+#| out-width: 100%
+library(tidyverse)
+library(patchwork)
 load("data/w1.rda")
 load("data/m1.rda")
 load("data/w2.rda")
 load("data/m2.rda")
+
+w1_smry <- w1 |>
+  group_by(player.player.player.playerId) |>
+  summarise_if(is.numeric, mean)
+w1_names <- w1 |>
+  select(player.player.player.playerId,
+         player.player.player.givenName,
+         player.player.player.surname) |>
+  distinct()
+w1_smry <- left_join(w1_smry, w1_names) |>
+  rename(id = player.player.player.playerId,
+         given_name = player.player.player.givenName,
+         surname = player.player.player.surname) |>
+  select(id, given_name, surname,
+         goals:freesAgainst)
+
+w2_smry <- w2 |>
+  group_by(player.player.player.playerId) |>
+  summarise_if(is.numeric, mean)
+w2_names <- w2 |>
+  select(player.player.player.playerId,
+         player.player.player.givenName,
+         player.player.player.surname) |>
+  distinct()
+w2_smry <- left_join(w2_smry, w2_names) |>
+  rename(id = player.player.player.playerId,
+         given_name = player.player.player.givenName,
+         surname = player.player.player.surname) |>
+  select(id, given_name, surname,
+         goals:freesAgainst)
+
+w <- left_join(w1_smry, w2_smry, 
+               by=c("given_name", "surname")) |>
+  rename(goalsVFLW = goals.x,
+         goalsAFLW = goals.y,
+         marksVFLW = marks.x,
+         marksAFLW = marks.y) 
+
+wp <- ggplot(w, aes(x=goalsVFLW, y=goalsAFLW)) +
+  geom_point() +
+  geom_text(data=filter(w, goalsAFLW > 1.3), 
+            aes(x=goalsVFLW, y=goalsAFLW,
+                label=paste(given_name, surname)),
+            colour="red") +
+  theme(aspect.ratio = 1)
+
+m1_smry <- m1 |>
+  group_by(player.player.player.playerId) |>
+  summarise_if(is.numeric, mean)
+m1_names <- m1 |>
+  select(player.player.player.playerId,
+         player.player.player.givenName,
+         player.player.player.surname) |>
+  distinct()
+m1_smry <- left_join(m1_smry, m1_names) |>
+  rename(id = player.player.player.playerId,
+         given_name = player.player.player.givenName,
+         surname = player.player.player.surname) |>
+  select(id, given_name, surname,
+         goals:freesAgainst)
+
+m2_smry <- m2 |>
+  group_by(player.player.player.playerId) |>
+  summarise_if(is.numeric, mean)
+m2_names <- m2 |>
+  select(player.player.player.playerId,
+         player.player.player.givenName,
+         player.player.player.surname) |>
+  distinct()
+m2_smry <- left_join(m2_smry, m2_names) |>
+  rename(id = player.player.player.playerId,
+         given_name = player.player.player.givenName,
+         surname = player.player.player.surname) |>
+  select(id, given_name, surname,
+         goals:freesAgainst)
+
+m <- left_join(m1_smry, m2_smry, 
+               by=c("given_name", "surname")) |>
+  rename(goalsVFLM = goals.x,
+         goalsAFLM = goals.y,
+         marksVFLM = marks.x,
+         marksAFLM = marks.y) 
+
+mp <- ggplot(m, aes(x=goalsVFLM, y=goalsAFLM)) +
+  geom_point() +
+  geom_text(data=filter(m, goalsAFLM > 2), 
+            aes(x=goalsVFLM, y=goalsAFLM,
+                label=paste(given_name, surname)),
+            colour="red") +
+  theme(aspect.ratio = 1)
+
+wp + mp + plot_layout(ncol=2)
 ```
