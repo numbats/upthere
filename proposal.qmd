@@ -1,0 +1,44 @@
+---
+title: "Do the VFL and VFLW stats suggest performance in AFL and AFLW?"
+author: "Minh Hyunh, Ignacio Alvarez, Dianne Cook"
+branding: true
+linestretch: 1.2
+format: memo-typst
+---
+
+## Topic
+
+A common question in Australian rules football is how well state-level (VFL) performance translates into success at the elite level (AFL).
+
+- Raw comparisons between VFL(W) and AFL(W) players are biased: only a subset of VFL(W) athletes are drafted, and they may already differ in age, position, or performance profile.
+- Propensity score matching (PSM) provides a way to create comparable groups of players, balancing observed characteristics before comparing outcomes.
+- With the [fitzRoy R package](https://jimmyday12.github.io/fitzRoy/), researchers can access both AFL(W) and VFL(W) match and player statistics from AFL(W) Tables, making it possible to conduct a rigorous causal-style analysis of talent pathways.
+
+## Plan
+
+1.	Use the [fitzRoy](https://jimmyday12.github.io/fitzRoy/) package to collect historical AFL and VFL player-level data.
+2.	Construct covariates for VFL players (e.g., disposals, goals, tackles, age, height, position).
+3.	Use PSM to match VFL players who transition to AFL with similar VFL players who do not.
+4.	Estimate the "treatment effect" of AFL selection on subsequent performance outcomes, and test whether VFL performance indicators predict AFL success.
+
+```{r}
+#| echo: false
+#| eval: false
+library(fitzRoy)
+w1 <- fetch_player_stats(2021, comp = "VFLW", source = "AFL")
+m1 <- fetch_player_stats(2021, comp = "VFL", source = "AFL")
+w2 <- fetch_player_stats(2024, comp = "AFLW", source = "AFL")
+m2 <- fetch_player_stats(2024, comp = "AFLM", source = "AFL")
+save(w1, file="data/w1.rda")
+save(m1, file="data/m1.rda")
+save(w2, file="data/w2.rda")
+save(m2, file="data/m2.rda")
+```
+
+```{r}
+#| echo: false
+load("data/w1.rda")
+load("data/m1.rda")
+load("data/w2.rda")
+load("data/m2.rda")
+```
