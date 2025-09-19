@@ -1,5 +1,5 @@
 ---
-title: "Do the VFL and VFLW stats suggest performance in AFL and AFLW?"
+title: "Predicting pathways of male and female AFL player success"
 author: "Minh Hyunh, Ignacio Alvarez, Dianne Cook"
 branding: true
 linestretch: 1.2
@@ -10,19 +10,19 @@ format: memo-typst
 
 A common question in Australian rules football is how well state-level (VFLM, VLFW) performance translates into success at the elite level (AFLM, AFLW).
 
-- Raw comparisons between VFL(M/W) and AFL(M/W) players are biased: only a subset of VFL(M/W) athletes are drafted, and they may already differ in age, position, or performance profile.
+- Raw comparisons between state-level and elite players are biased: only a subset of state-level athletes are drafted, and they may already differ in age, position, or performance profile.
 - Propensity score matching (PSM) provides a way to create comparable groups of players, balancing observed characteristics before comparing outcomes.
-- With the [fitzRoy R package](https://jimmyday12.github.io/fitzRoy/), researchers can access both AFL(M/W) and VFL(M/W) match and player statistics from AFL(M/W) Tables, making it possible to conduct a rigorous causal-style analysis of talent pathways.
+- With the [fitzRoy R package](https://jimmyday12.github.io/fitzRoy/), researchers can access both match and player statistics from AFL Tables, making it possible to conduct a rigorous causal-style analysis of talent pathways.
 
 ## Plan
 
-1.	Use the [fitzRoy](https://jimmyday12.github.io/fitzRoy/) package to collect historical AFL(M/W) and VFL(M/W) player-level data.
-2.  Organise the data to contain statistics for players in VFL(M/W) and AFL(M/W).
-3.  Explore the statistics and demographics of players that didn't transition from VFL(M/W) to AFL(M/W). 
+1.	Use the [fitzRoy](https://jimmyday12.github.io/fitzRoy/) package to collect historical player-level data.
+2.  Organise the data to contain statistics for players in state and elite level.
+3.  Explore the statistics and demographics of players that didn't transition to elite level. 
 4. Subset to players who made the transition. 
-5.	Conduct clustering of VFL(M/W) players into groups based on demographics, age, height, position.
-6.	Use PSM to match VFL(M/W) players who transition to AFL(M/W) with similar VFL(M/W) players who do not.
-7.	Estimate the "treatment effect" of AFL(M/W) selection on subsequent performance outcomes, and test whether VFL(M/W) performance indicators predict AFL(M/W) success.
+5.	Conduct clustering of state-level players into groups based on demographics, age, height, position.
+6.	Use PSM to match players who transition with similar players who do not.
+7.	Estimate the "treatment effect" of elite selection on subsequent performance outcomes, and test whether state-level performance indicators predict elite-level success.
 
 ```{r}
 #| echo: false
@@ -94,7 +94,13 @@ wp <- ggplot(w, aes(x=goalsVFLW, y=goalsAFLW)) +
   geom_text(data=filter(w, goalsAFLW > 1.3), 
             aes(x=goalsVFLW, y=goalsAFLW,
                 label=paste(given_name, surname)),
-            colour="red") +
+            colour="#006DAE",
+                hjust=1, vjust=1) +
+  geom_text(data=filter(w, goalsVFLW > 2), 
+            aes(x=goalsVFLW, y=goalsAFLW,
+                label=paste(given_name, surname)),
+            colour="#006DAE",
+                hjust=1, vjust=1) +
   theme(aspect.ratio = 1)
 
 m1_smry <- m1 |>
@@ -138,8 +144,9 @@ mp <- ggplot(m, aes(x=goalsVFLM, y=goalsAFLM)) +
   geom_point() +
   geom_text(data=filter(m, goalsAFLM > 2), 
             aes(x=goalsVFLM, y=goalsAFLM,
-                label=paste(given_name, surname)),
-            colour="red") +
+                label=paste(given_name, surname),
+                hjust=1, vjust=1),
+            colour="#006DAE") +
   theme(aspect.ratio = 1)
 
 wp + mp + plot_layout(ncol=2)
