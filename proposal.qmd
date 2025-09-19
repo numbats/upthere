@@ -8,18 +8,18 @@ format: memo-typst
 
 ## Topic
 
-A common question in Australian rules football is how well state-level (VFL) performance translates into success at the elite level (AFL).
+A common question in Australian rules football is how well state-level (VFLM, VLFW) performance translates into success at the elite level (AFLM, AFLW).
 
-- Raw comparisons between VFL(W) and AFL(W) players are biased: only a subset of VFL(W) athletes are drafted, and they may already differ in age, position, or performance profile.
+- Raw comparisons between VFL(M/W) and AFL(M/W) players are biased: only a subset of VFL(M/W) athletes are drafted, and they may already differ in age, position, or performance profile.
 - Propensity score matching (PSM) provides a way to create comparable groups of players, balancing observed characteristics before comparing outcomes.
-- With the [fitzRoy R package](https://jimmyday12.github.io/fitzRoy/), researchers can access both AFL(W) and VFL(W) match and player statistics from AFL(W) Tables, making it possible to conduct a rigorous causal-style analysis of talent pathways.
+- With the [fitzRoy R package](https://jimmyday12.github.io/fitzRoy/), researchers can access both AFL(M/W) and VFL(M/W) match and player statistics from AFL(M/W) Tables, making it possible to conduct a rigorous causal-style analysis of talent pathways.
 
 ## Plan
 
-1.	Use the [fitzRoy](https://jimmyday12.github.io/fitzRoy/) package to collect historical AFL and VFL player-level data.
+1.	Use the [fitzRoy](https://jimmyday12.github.io/fitzRoy/) package to collect historical AFL(M/W) and VFL(M/W) player-level data.
 2.	Construct covariates for VFL players (e.g., disposals, goals, tackles, age, height, position).
-3.	Use PSM to match VFL players who transition to AFL with similar VFL players who do not.
-4.	Estimate the "treatment effect" of AFL selection on subsequent performance outcomes, and test whether VFL performance indicators predict AFL success.
+3.	Use PSM to match VFL(M/W) players who transition to AFL(M/W) with similar VFL(M/W) players who do not.
+4.	Estimate the "treatment effect" of AFL(M/W) selection on subsequent performance outcomes, and test whether VFL(M/W) performance indicators predict AFL(M/W) success.
 
 ```{r}
 #| echo: false
