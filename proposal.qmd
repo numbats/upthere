@@ -17,9 +17,12 @@ A common question in Australian rules football is how well state-level (VFLM, VL
 ## Plan
 
 1.	Use the [fitzRoy](https://jimmyday12.github.io/fitzRoy/) package to collect historical AFL(M/W) and VFL(M/W) player-level data.
-2.	Construct covariates for VFL players (e.g., disposals, goals, tackles, age, height, position).
-3.	Use PSM to match VFL(M/W) players who transition to AFL(M/W) with similar VFL(M/W) players who do not.
-4.	Estimate the "treatment effect" of AFL(M/W) selection on subsequent performance outcomes, and test whether VFL(M/W) performance indicators predict AFL(M/W) success.
+2.  Organise the data to contain statistics for players in VFL(M/W) and AFL(M/W).
+3.  Explore the statistics and demographics of players that didn't transition from VFL(M/W) to AFL(M/W). 
+4. Subset to players who made the transition. 
+5.	Conduct clustering of VFL(M/W) players into groups based on demographics, age, height, position.
+6.	Use PSM to match VFL(M/W) players who transition to AFL(M/W) with similar VFL(M/W) players who do not.
+7.	Estimate the "treatment effect" of AFL(M/W) selection on subsequent performance outcomes, and test whether VFL(M/W) performance indicators predict AFL(M/W) success.
 
 ```{r}
 #| echo: false
