@@ -21,7 +21,7 @@ A common question in Australian rules football is how well state-level (VFLM, VL
 3.  Explore the statistics and demographics of players that didn't transition to elite level. 
 4. Subset to players who made the transition. 
 5.	Conduct clustering of state-level players into groups based on demographics, age, height, position.
-6.	Use PSM to match players who transition with similar players who do not.
+6.	Obtain estimates of the PSM and use it to match players who transition with similar players who do not.
 7.	Estimate the "treatment effect" of elite selection on subsequent performance outcomes, and test whether state-level performance indicators predict elite-level success.
 
 ```{r}
